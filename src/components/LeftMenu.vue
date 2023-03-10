@@ -1,9 +1,11 @@
 <template>
-  <div class="menu_container">
-    <input class="menu_btn"
+  <div v-bind:style="menuStyle"
+       v-bind:class="{visibleMenu:visible}"
+       class="menu_container">
+    <input v-bind:class="{visibleMenuIcon:visible}"
+           class="menu_btn"
            type="button"
-            v-on:click="input++"
-            :value="input">
+            v-on:click="show">
 
   </div>
 </template>
@@ -15,13 +17,19 @@ export default {
 
   data() {
     return {
-      input: 4
+      visible: this.$store.getters.getMenuVisible,
+
+      menuStyle: {
+        width : this.$store.getters.getMenuWidth+'px',
+      }
     }
   },
 
   methods: {
-    click: function () {
-      console.log("asd")
+    show: function () {
+      this.$store.dispatch('changeMenuVisible')
+      this.visible = this.$store.getters.getMenuVisible
+      this.menuStyle.width = this.$store.getters.getMenuWidth+'px'
     }
   }
 
@@ -30,16 +38,29 @@ export default {
 
 <style scoped>
 .menu_container {
-  width: 100%;
   height: 100%;
   background-color: black;
-
+  transition: 0.5s;
 }
 
 .menu_btn {
-  width: 100px;
-  height: 100px;
-  background-color: white;
+  margin: 5px;
+  float: right;
+  width: 50px;
+  height: 50px;
+  background-image: url('@/assets/menu-icon.png');
+  border-radius: 25px;
+  transition: 0.5s;
 }
+
+.visibleMenu {
+  background-color: rebeccapurple;
+}
+
+.visibleMenuIcon {
+  background-image: url('@/assets/menu-icon.png');
+  transform: rotate(-180deg);
+}
+
 
 </style>

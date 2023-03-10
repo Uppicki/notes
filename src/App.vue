@@ -1,7 +1,7 @@
 <template>
 
-  <left-menu class="left_container"></left-menu>
-  <!--<div class="right_container"></div>-->
+  <left-menu></left-menu>
+
 
 </template>
 
@@ -25,6 +25,9 @@ div {
   height: 100%;
 }
 .left_container{
+  width: 300px;
+  height: 300px;
+  background-color: midnightblue;
 }
 div .right_container{
   left: 310px;

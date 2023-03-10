@@ -4,8 +4,26 @@ export default createStore({
     state() {
         return {
             menuIsVisible: true,
-            menuVisibleWidth: 100,
+            menuVisibleWidth: 60,
             menuInvisibleWidth: 300,
+        }
+    },
+    getters: {
+        getMenuVisible(state) {
+            return state.menuIsVisible
+        },
+        getMenuWidth(state) {
+            return state.menuIsVisible ? state.menuVisibleWidth : state.menuInvisibleWidth
+        },
+    },
+    mutations: {
+        changeMenuVisible(state) {
+            state.menuIsVisible = !state.menuIsVisible
+        }
+    },
+    actions: {
+        changeMenuVisible(context) {
+            context.commit('changeMenuVisible')
         }
     }
 
