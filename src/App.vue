@@ -4,7 +4,7 @@
              @redraw="draw"
              v-bind:menu-params="menuParams"></left-menu>
 
-  <content-widget
+  <content-widget @closeWidget="closeWidget"
                   v-bind:content-params="contentParams"></content-widget>
 
 
@@ -33,7 +33,6 @@ export default {
         style : {
           width : (window.innerWidth -(this.$store.getters.getMenuWidth + 10))+'px'
         },
-        createWidget : this.$store.getters.getCreateIsOpen
       },
       prevW : window.innerWidth
     }
@@ -58,6 +57,22 @@ export default {
         this.contentParams.createWidget = this.$store.getters.getCreateIsOpen
       }
     },
+    closeWidget: function () {
+      if (this.$store.getters.getCreateIsOpen) {
+        this.$store.dispatch('changeCreateVisible')
+        this.contentParams.createWidget = this.$store.getters.getCreateIsOpen
+      }
+    },
+
+  },
+  beforeCreate() {
+    if (this.$store.getters.getUsername === "") {
+      let result = ""
+      while (result === "") {
+        result = prompt("Введите username")
+      }
+      this.$store.dispatch('authUser', result)
+    }
   },
 
   mounted() {

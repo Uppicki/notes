@@ -2,20 +2,38 @@
   <div v-bind:class="{container : contentParams.menuAction}"
        class="container_2">
 
-    <create-widget v-bind:menu-action="contentParams.menuAction"
+
+    <create-widget @closeWidget="closeWidget"
+                   @createWidget="create"
+                   v-bind:contentParams="contentParams"
                    v-bind:style="contentParams.style"
-                   v-show="contentParams.createWidget">
+                   v-if="contentParams.createWidget">
 
     </create-widget>
+
+    <notes-widget v-bind:style="contentParams.style"
+                  v-show="!contentParams.createWidget"
+                  v-bind:contentParams="contentParams"
+                  v-bind:notes="notes">
+
+    </notes-widget>
 
   </div>
 </template>
 
 <script>
 import CreateWidget from "@/components/CreateWidget";
+import NotesWidget from "@/components/NotesWidget";
 export default {
   name: "ContentWidget",
-  components: {CreateWidget},
+  components: {NotesWidget, CreateWidget},
+
+  data() {
+    return {
+      notes: this.$store.getters.getNotes
+    }
+  },
+
 
 
   props: {
@@ -38,7 +56,12 @@ export default {
   },
 
   methods: {
-
+    closeWidget: function () {
+      this.$emit('closeWidget')
+    },
+    create: function () {
+      this.$emit('closeWidget')
+    }
   }
 }
 </script>
@@ -47,10 +70,8 @@ export default {
 .container {
   transition: 0.5s;
   right: 0;
-  background-color: black;
 }
 .container_2 {
   right: 0;
-  background-color: black;
 }
 </style>
